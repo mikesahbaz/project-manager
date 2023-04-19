@@ -24,10 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
   })
-  return User;
-}
-
-module.exports = (sequelize, DataTypes) => {
+  
   const Project = sequelize.define('project', {
     id: {
       type: DataTypes.INTEGER,
@@ -47,10 +44,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
   })
-  return Project;
-}
-
-module.exports = (sequelize, DataTypes) => {
+  
   const Task = sequelize.define('task', {
     id: {
       type: DataTypes.INTEGER,
@@ -82,10 +76,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   })
-  return Task;
-}
-
-module.exports = (sequelize, DataTypes) => {
+  
   const Bug = sequelize.define('bug', {
     id: {
       type: DataTypes.INTEGER,
@@ -113,11 +104,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   })
-  return Bug;
-}
 
-
-module.exports = (sequelize, DataTypes) => {
   const UserProject = sequelize.define('userProject', {
     userId: {
       type: DataTypes.INTEGER,
@@ -136,8 +123,26 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
-  return UserProject;
-};
+  
+  return { User, Project, Task, Bug, UserProject };
+}
+
+// module.exports = (sequelize, DataTypes) => {
+//   return Project;
+// }
+
+// module.exports = (sequelize, DataTypes) => {
+//   return Task;
+// }
+
+// module.exports = (sequelize, DataTypes) => {
+//   return Bug;
+// }
+
+
+// module.exports = (sequelize, DataTypes) => {
+//   return UserProject;
+// };
 
 
 

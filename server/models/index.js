@@ -10,24 +10,30 @@ const config = {
 const sequelize = new Sequelize('project_management_tool', 'postgres', '1234', config);
 const db = {};
 
-const files = fs.readdirSync(__dirname);
+const models = require('./model')(sequelize, Sequelize.DataTypes);
 
-for (const file of files) {
-  if (file !== 'index.js') {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  }
-}
+Object.keys(models).forEach((modelName) => {
+  db[modelName] = models[modelName];
+});
+
+// const files = fs.readdirSync(__dirname);
+
+// for (const file of files) {
+//   if (file !== 'index.js') {
+//     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+//     db[model.name] = model;
+//   }
+// }
 
 
-db.User.belongsToMany(Project, { through: UserProject });
-db.Project.belongsToMany(User, { through: UserProject });
+db.User.belongsToMany(db.Project, { through: db.UserProject });
+db.Project.belongsToMany(db.User, { through: db.UserProject });
 
-db.Project.hasMany(Task, { foreignKey: 'projectId' });
-db.Task.belongsTo(Project, { foreignKey: 'projectId' });
+db.Project.hasMany(db.Task, { foreignKey: 'projectId' });
+db.Task.belongsTo(db.Project, { foreignKey: 'projectId' });
 
-db.Task.hasMany(Bug, { foreignKey: 'taskId' });
-db.Bug.belongsTo(Task, { foreignKey: 'taskId' });
+db.Task.hasMany(db.Bug, { foreignKey: 'taskId' });
+db.Bug.belongsTo(db.Task, { foreignKey: 'taskId' });
 
 try {
   sequelize.authenticate();
