@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
   })
+  return User;
 }
 
 module.exports = (sequelize, DataTypes) => {
@@ -45,15 +46,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'users',
-        key: 'id',
-      },
-    }
   })
+  return Project;
 }
 
 module.exports = (sequelize, DataTypes) => {
@@ -88,6 +82,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   })
+  return Task;
 }
 
 module.exports = (sequelize, DataTypes) => {
@@ -118,13 +113,31 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   })
+  return Bug;
 }
 
-User.hasMany(Project, { foreignKey: 'userId' });
-Project.belongsTo(User, { foreignKey: 'userId' });
 
-Project.hasMany(Task, { foreignKey: 'projectId' });
-Task.belongsTo(Project, { foreignKey: 'projectId' });
+module.exports = (sequelize, DataTypes) => {
+  const UserProject = sequelize.define('userProject', {
+    userId: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+    },
+    projectId: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      references: {
+        model: 'projects',
+        key: 'id',
+      }
+    }
+  });
+  return UserProject;
+};
 
-Task.hasMany(Bug, { foreignKey: 'taskId' });
-Bug.belongsTo(Task, { foreignKey: 'taskId' });
+
+

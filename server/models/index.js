@@ -19,6 +19,16 @@ for (const file of files) {
   }
 }
 
+
+db.User.belongsToMany(Project, { through: UserProject });
+db.Project.belongsToMany(User, { through: UserProject });
+
+db.Project.hasMany(Task, { foreignKey: 'projectId' });
+db.Task.belongsTo(Project, { foreignKey: 'projectId' });
+
+db.Task.hasMany(Bug, { foreignKey: 'taskId' });
+db.Bug.belongsTo(Task, { foreignKey: 'taskId' });
+
 try {
   sequelize.authenticate();
   console.log('Connection has been established successfully.');
