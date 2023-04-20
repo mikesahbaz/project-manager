@@ -11,18 +11,20 @@ const registerUser = async function (ctx) {
     ctx.status = 201;
     ctx.body = { user: storeUser };
   } catch (error) {
-    console.error(error);
+    console.error('Error in registerUser:' ,error);
+    ctx.body = error;
     ctx.status = 500;
   }
 }
 
 const loginUser = async function (ctx) {
+  console.log('Login request received');
   try {
     const { email, password, idToken } = ctx.request.body;
+    console.log('Request body:', ctx.request.body);
     let userCredential;
     if (email && password) {
       userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-
     } else if (idToken) {
       const credential = admin.auth.GoogleAuthProvider.credential(idToken);
       userCredential = await firebase.auth().signInWithCredential(credential);
@@ -33,7 +35,8 @@ const loginUser = async function (ctx) {
     }
 
     const validatedUser = userCredential.user;
-
+    console.log('Validated user:', validatedUser);
+    
     if (!validatedUser) {
       ctx.status = 401;
       ctx.body = { error: 'Invalid email or password'};
@@ -41,10 +44,12 @@ const loginUser = async function (ctx) {
     }
 
     const getUser = await db.User.findOne({ where: { firebase_uid: validatedUser.uid} });
+    console.log('Database user:', getUser);
     ctx.status = 200;
-    ctx.body = { user: getUser};
+    ctx.body = { message: 'The user exists:' ,user: getUser};
   } catch (error) {
     console.error(error);
+    ctx.body = error;
     ctx.status = 500;
   }
 }
