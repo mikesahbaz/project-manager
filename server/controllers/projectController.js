@@ -24,9 +24,13 @@ const getProjectById = async function (ctx) {
     const user = await db.User.findOne({
       where: { id: userId },
       include: {
-        model: db.Project
+        model: db.Project,
+        through: db.UserProject,
+        where: { id: projectId }
       }
-    })  
+    });
+    ctx.body = { project: project.dataValues };
+    
   } catch (error) {
     console.error(error);
     ctx.response.status = 500;
