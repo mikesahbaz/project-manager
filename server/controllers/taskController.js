@@ -1,13 +1,14 @@
 const db = require('../models/index');
 
 const postTask = async function (ctx) {
+  const projectId = ctx.params.projectId;
   try {
     const task = await db.Task.create({
       name: ctx.request.body.name,
       description: ctx.request.body.description,
       priority: ctx.request.body.priority,
       deadline: ctx.request.body.deadline,
-      projectId: ctx.request.body.projectId,
+      projectId: ctx.params.projectId,
     });
     ctx.response.status = 201;
     ctx.response.body = task;
