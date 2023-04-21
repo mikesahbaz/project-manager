@@ -5,14 +5,13 @@ const bcrypt = require('bcrypt');
 
 const registerUser = async function (ctx) {
   try {
-    const { firstName, lastName, email, password } = ctx.request.body;
+    const { firstName, lastName, email, password, firebaseUid } = ctx.request.body;
     const saltRounds = 10;
     const hashedPassword = bcrypt.hashSync(password, saltRounds);
-    const createUser = await admin.auth().createUser({ email });
-    const storeUser = await db.User.create({ firebase_uid: createUser.uid, firstName, lastName, email, password: hashedPassword})
+    const storeUser = await db.User.create({ firebase_uid: firebaseUid, firstName, lastName, email, password: hashedPassword})
     
     ctx.status = 201;
-    ctx.body = { user: storeUser };
+    ctx.body = { message: 'You have succesfully registered'};
   } catch (error) {
     console.error('Error in registerUser:' ,error);
     ctx.body = error;

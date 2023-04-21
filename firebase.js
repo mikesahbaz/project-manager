@@ -4,8 +4,6 @@ const admin = require('firebase-admin');
 const firebase = require('firebase/app');
 require('firebase/auth');
 
-// console.log(process.env.FIREBASE_PRIVATE_KEY);
-// // console.log(process.env);
 
 const serviceAccount = {
   projectId: process.env.FIREBASE_PROJECT_ID,
@@ -17,12 +15,7 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
-/* const myRefreshToken = '...'; // Get refresh token from OAuth2 flow
 
-initializeApp({
-  credential: refreshToken(myRefreshToken),
-  databaseURL: 'https://<DATABASE_NAME>.firebaseio.com'
-});  */
 
 const auth = admin.auth();
 
