@@ -17,6 +17,13 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
+/* const myRefreshToken = '...'; // Get refresh token from OAuth2 flow
+
+initializeApp({
+  credential: refreshToken(myRefreshToken),
+  databaseURL: 'https://<DATABASE_NAME>.firebaseio.com'
+});  */
+
 const auth = admin.auth();
 
 const firebaseConfig = {

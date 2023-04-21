@@ -1,12 +1,15 @@
 const db = require('../models/index');
 const { admin, firebase, auth } = require('../../firebase');
+const bcrypt = require('bcrypt');
 
 
 const registerUser = async function (ctx) {
   try {
     const { firstName, lastName, email, password } = ctx.request.body;
-    const createUser = await admin.auth().createUser({ email, password });
-    const storeUser = await db.User.create({ firebase_uid: createUser.uid, firstName, lastName, email})
+    const saltRounds = 10;
+    const hashedPassword = bcrypt.hashSync(password, saltRounds);
+    const createUser = await admin.auth().createUser({ email });
+    const storeUser = await db.User.create({ firebase_uid: createUser.uid, firstName, lastName, email, password: hashedPassword})
     
     ctx.status = 201;
     ctx.body = { user: storeUser };
@@ -20,33 +23,33 @@ const registerUser = async function (ctx) {
 const loginUser = async function (ctx) {
   console.log('Login request received');
   try {
-    const { email, password, idToken } = ctx.request.body;
-    console.log('Request body:', ctx.request.body);
+    const email = ctx.request.body.email || '';
+    const password = ctx.request.body.password || '';
+    const idToken = ctx.request.body.idToken || '';
     let userCredential;
+    let getUser;
     if (email && password) {
-      userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+      userCredential = await admin.auth().getUserByEmail(email);
+      const getUser = await db.User.findOne({ where: { firebase_uid: userCredential.uid} });
+
+      if (!getUser || !getUser.password || !bcrypt.compareSync(password, getUser.password)) {
+        ctx.status = 401;
+        ctx.body = { error: 'Invalid email or password' };
+        return;
+      } else {
+        ctx.body = getUser;
+      }
     } else if (idToken) {
       const credential = admin.auth.GoogleAuthProvider.credential(idToken);
-      userCredential = await firebase.auth().signInWithCredential(credential);
+      userCredential = await admin.auth().signInWithCredential(credential);
     } else {
       ctx.status = 400;
       ctx.body = { error: 'Invalid Request'};
       return;
     }
 
-    const validatedUser = userCredential.user;
-    console.log('Validated user:', validatedUser);
-    
-    if (!validatedUser) {
-      ctx.status = 401;
-      ctx.body = { error: 'Invalid email or password'};
-      return;
-    }
-
-    const getUser = await db.User.findOne({ where: { firebase_uid: validatedUser.uid} });
-    console.log('Database user:', getUser);
     ctx.status = 200;
-    ctx.body = { message: 'The user exists:' ,user: getUser};
+    ctx.body = 'You have succesfully logged in!';
   } catch (error) {
     console.error(error);
     ctx.body = error;

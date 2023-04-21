@@ -11,6 +11,6 @@ app.use(bodyParser());
 app.use(router.routes());
 
 (async function bootstrap () {
-  await db.sequelize.sync({force: true});
+  await db.sequelize.sync();
   app.listen(3001);
 })();
