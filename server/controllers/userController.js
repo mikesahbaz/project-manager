@@ -21,7 +21,6 @@ const registerUser = async function (ctx) {
 }
 
 const loginUser = async function (ctx) {
-  console.log('Login request received');
   try {
     const email = ctx.request.body.email || '';
     const password = ctx.request.body.password || '';
@@ -44,7 +43,7 @@ const loginUser = async function (ctx) {
       userCredential = await admin.auth().signInWithCredential(credential);
     } else {
       ctx.status = 400;
-      ctx.body = { error: 'Invalid Request'};
+      ctx.body = { error: 'Invalid Request, did not send proper data'};
       return;
     }
 
@@ -59,7 +58,9 @@ const loginUser = async function (ctx) {
 
 const logoutUser = async function (ctx) {
   try {
-    const { idToken, email, password } = ctx.request.body;
+    const email = ctx.request.body.email || '';
+    const password = ctx.request.body.password || '';
+    const idToken = ctx.request.body.idToken || '';
     let providerId;
     if (idToken) {
       const decodedToken = await admin.auth().verifyIdToken(idToken);
