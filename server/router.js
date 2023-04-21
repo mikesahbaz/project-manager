@@ -14,7 +14,7 @@ router.post('/register', userController.registerUser);
 
 //project routes
 router.post('/projects', projectController.postProject);
-router.get('/users/:userId/projects/:projectId', projectController.getProjectsByUser);
+router.get('/users/:userId/projects', projectController.getProjectsByUser);
 router.delete('/projects/:projectId', projectController.deleteProjectById);
 
 //task routes

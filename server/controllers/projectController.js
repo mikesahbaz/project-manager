@@ -2,14 +2,15 @@ const db = require('../models/index');
 
 const postProject = async function (ctx) {
   try {
+    const deadlineDate = new Date(parseInt(ctx.request.body.deadline, 10));
     const project = await db.Project.create({
       name: ctx.request.body.name,
       description: ctx.request.body.description,
-      deadline: ctx.request.body.deadline,
+      deadline: deadlineDate,
     });
     const userIds = ctx.request.body.userIds;
     const users = await db.User.findAll({
-      where: { id: userIds },
+      where: { id: { [db.Sequelize.Op.in]: userIds } },
     });
     await project.addUsers(users);
 
@@ -19,10 +20,11 @@ const postProject = async function (ctx) {
     });
 
     ctx.response.status = 201;
-    ctx.response.body = projectWithUsers;
+    ctx.response.body = project;
 
   } catch (error) {
     console.error(error);
+    ctx.response.body = error;
     ctx.response.status = 500;
   }
 }
@@ -37,12 +39,11 @@ const getProjectsByUser = async function (ctx) {
       include: {
         model: db.Project,
         through: db.UserProject,
-        where: { id: projectId }
       }
     });
     
-    if (user && user.Projects.length > 0) {
-      const projects = user.Projects.map(project => project.data);
+    if (user && user.projects.length > 0) {
+      const projects = user.projects.map(project => project.dataValues);
       ctx.body = { projects };
     } else {
       ctx.response.status = 404;
@@ -52,6 +53,7 @@ const getProjectsByUser = async function (ctx) {
   } catch (error) {
     console.error(error);
     ctx.response.status = 500;
+    ctx.body = error;
   }
 }
 
@@ -74,6 +76,7 @@ const deleteProjectById = async function (ctx) {
   } catch (error) {
     console.error(error);
     ctx.response.status = 500;
+    ctx.body = error;
   }
 }
 
