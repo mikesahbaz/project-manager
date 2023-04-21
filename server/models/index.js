@@ -16,14 +16,6 @@ Object.keys(models).forEach((modelName) => {
   db[modelName] = models[modelName];
 });
 
-// const files = fs.readdirSync(__dirname);
-
-// for (const file of files) {
-//   if (file !== 'index.js') {
-//     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-//     db[model.name] = model;
-//   }
-// }
 
 
 db.User.belongsToMany(db.Project, { through: db.UserProject });

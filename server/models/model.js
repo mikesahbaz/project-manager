@@ -67,7 +67,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     deadline: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     projectId: {
@@ -129,23 +129,6 @@ module.exports = (sequelize, DataTypes) => {
   
   return { User, Project, Task, Bug, UserProject };
 }
-
-// module.exports = (sequelize, DataTypes) => {
-//   return Project;
-// }
-
-// module.exports = (sequelize, DataTypes) => {
-//   return Task;
-// }
-
-// module.exports = (sequelize, DataTypes) => {
-//   return Bug;
-// }
-
-
-// module.exports = (sequelize, DataTypes) => {
-//   return UserProject;
-// };
 
 
 
