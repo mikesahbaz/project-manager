@@ -29,6 +29,7 @@ const loginUser = async function (ctx) {
     let getUser;
     if (email && password) {
       userCredential = await admin.auth().getUserByEmail(email);
+      console.log(userCredential);
       const getUser = await db.User.findOne({ where: { firebase_uid: userCredential.uid} });
 
       if (!getUser || !getUser.password || !bcrypt.compareSync(password, getUser.password)) {
