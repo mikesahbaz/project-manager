@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { auth } from '../../src/firebase_react';
 import NavBar from './NavBar';
 import { useNavigate } from 'react-router-dom';
+import ProjectPage from './ProjectPage';
 // import { FiBell, FiCalendar, FiSearch  } from 'react-icons/fi';
 import './Dashboard.css';
 
@@ -38,6 +39,10 @@ export default function Dashboard() {
     navigate('/createProject');
   }
 
+  const handleProjectClick = (projectId) => {
+    navigate(`/projects/${projectId}`)
+  }
+
   return (
     <div>
       <NavBar></NavBar>
@@ -51,9 +56,8 @@ export default function Dashboard() {
             </div>
             {projects.map((project) => (
               <div key={project.id} className='project-item'>
-                <h2>{project.name}</h2>
-                <h4>{project.description}</h4>
-                <h3>{project.deadline}</h3>
+                <h2 onClick={ () => handleProjectClick(project.id)} style={{cursor: 'pointer'}}>{project.name}</h2>
+                <h3>{project.description}</h3>
               </div>
             ))}
           </div>

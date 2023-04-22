@@ -82,4 +82,13 @@
   background-color: #8f6dd9;
 }
 
+.project-item {
+  margin-top: 10px;
+  border-radius: 7px;
+  
+}
+.project-item:hover {
+  background-color: #a885f5;
+  color: #fff;
+}
 
