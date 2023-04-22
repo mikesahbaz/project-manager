@@ -11,6 +11,7 @@ const router = new Router();
 router.post('/login', userController.loginUser);
 router.post('/logout', userController.logoutUser);
 router.post('/register', userController.registerUser);
+router.get('/users', userController.getAllUsers);
 
 //project routes
 router.post('/projects', projectController.postProject);

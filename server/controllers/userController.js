@@ -81,4 +81,19 @@ const logoutUser = async function (ctx) {
 }
 
 
-module.exports = { logoutUser, loginUser, registerUser};
+const getAllUsers = async function (ctx) {
+  try {
+    const users = await db.User.findAll({
+      attributes: ['id', 'firstName', 'lastName', 'email']
+    })
+    ctx.status = 200;
+    ctx.body = { users };
+  } catch (error) {
+    console.error('Error in getAllUsers: ', error);
+    ctx.body = error;
+    ctx.status = 500;
+  }
+}
+
+
+module.exports = { logoutUser, loginUser, registerUser, getAllUsers};
