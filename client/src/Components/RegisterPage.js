@@ -25,7 +25,7 @@ export default function RegisterPage() {
     try {
       await createUserWithEmailAndPassword(auth, email, password)
       const user = auth.currentUser;
-      const firebaseUid = user.uid;
+      firebaseUid = user.uid;
     } catch (error) {
       console.error(error);
       setError(error.message);

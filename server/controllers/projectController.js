@@ -31,11 +31,11 @@ const postProject = async function (ctx) {
 
 const getProjectsByUser = async function (ctx) {
   const userId = ctx.params.userId;
-  const projectId = ctx.params.projectId;
+  const firebaseUid = ctx.params.firebaseUid;
 
   try {
     const user = await db.User.findOne({
-      where: { id: userId },
+      where: { firebase_uid: firebaseUid },
       include: {
         model: db.Project,
         through: db.UserProject,
