@@ -59,4 +59,27 @@
   margin-bottom: 20px; 
 }
 
+.text-and-btn-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.create-project-btn {
+  background-color: #a885f5;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 20px;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.create-project-btn:hover {
+  background-color: #8f6dd9;
+}
+
 

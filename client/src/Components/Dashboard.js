@@ -47,7 +47,10 @@ export default function Dashboard() {
       {user && (
         <div>
           <div className='projects-container'>
-            <h1 className='projects-text'>My Projects </h1>
+            <div className='text-and-btn-container'>
+              <h1 className='projects-text'>My Projects </h1>
+              <button className='create-project-btn'>Create a new project</button>
+            </div>
             {projects.map((project) => (
               <div key={project.id} className='project-item'>
                 <h2>{project.name}</h2>
