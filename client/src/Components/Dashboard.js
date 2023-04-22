@@ -51,6 +51,8 @@ export default function Dashboard() {
             {projects.map((project) => (
               <div key={project.id} className='project-item'>
                 <h2>{project.name}</h2>
+                <h4>{project.description}</h4>
+                <h3>{project.deadline}</h3>
               </div>
             ))}
           </div>
