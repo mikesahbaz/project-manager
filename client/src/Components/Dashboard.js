@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { auth } from '../../src/firebase_react';
+import NavBar from './NavBar';
+import { useNavigate } from 'react-router-dom';
+import ProjectPage from './ProjectPage';
 // import { FiBell, FiCalendar, FiSearch  } from 'react-icons/fi';
 import './Dashboard.css';
 
 export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [projects, setProjects] = useState([]);
+  const navigate = useNavigate();
 
   const fetchProjects = async function (firebaseID) {
     try {
@@ -31,31 +35,29 @@ export default function Dashboard() {
     return unsubscribe;
   }, [])
 
+  const handleCreateProjectClick = () => {
+    navigate('/createProject');
+  }
+
+  const handleProjectClick = (projectId) => {
+    navigate(`/projects/${projectId}`)
+  }
+
   return (
     <div>
-      <div className='nav-container'>
-        <div className='nav-menu'>
-          <a href='#' className='nav-link'>Dashboard</a>
-          <a href='#' className='nav-link'>Tasks</a>
-          <a href='#' className='nav-link'>Tickets</a>
-          <a href='#' className='nav-link'>Milestones</a>
-          <a href='#' className='nav-link'>Timesheet</a>
-        </div>
-
-      </div>
+      <NavBar></NavBar>
       <div className='main-content'>
       {user && (
         <div>
           <div className='projects-container'>
             <div className='text-and-btn-container'>
               <h1 className='projects-text'>My Projects </h1>
-              <button className='create-project-btn'>Create a new project</button>
+              <button className='create-project-btn' onClick={handleCreateProjectClick}>Create a new project</button>
             </div>
             {projects.map((project) => (
               <div key={project.id} className='project-item'>
-                <h2>{project.name}</h2>
-                <h4>{project.description}</h4>
-                <h3>{project.deadline}</h3>
+                <h2 onClick={ () => handleProjectClick(project.id)} style={{cursor: 'pointer'}}>{project.name}</h2>
+                <h3>{project.description}</h3>
               </div>
             ))}
           </div>

@@ -57,6 +57,29 @@ const getProjectsByUser = async function (ctx) {
   }
 }
 
+const getProjectById = async function (ctx) {
+  const projectId = ctx.params.projectId;
+
+  try {
+    const project = await db.Project.findOne({
+      where: { id: projectId },
+    });
+    if (project) {
+      ctx.response.status = 200;
+      ctx.body = { project };
+
+    } else {
+      ctx.response.status = 404;
+      ctx.body = { message: 'Project was not found' };
+    }
+
+  } catch (error) {
+    console.error(error);
+    ctx.response.status = 500;
+    ctx.body = error;
+  }
+}
+
 const deleteProjectById = async function (ctx) {
   const projectId = ctx.params.projectId;
 
@@ -80,4 +103,4 @@ const deleteProjectById = async function (ctx) {
   }
 }
 
-module.exports = { deleteProjectById, getProjectsByUser, postProject};
+module.exports = { deleteProjectById, getProjectsByUser, postProject, getProjectById};

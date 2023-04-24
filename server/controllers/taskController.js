@@ -16,6 +16,7 @@ const postTask = async function (ctx) {
   } catch (error) {
     console.error(error);
     ctx.response.status = 500;
+    ctx.response.body = { message: 'Internal Server Error at POST task'};
   }
 }
 
@@ -24,7 +25,10 @@ const getTasksByProject = async function (ctx) {
     const tasks = await db.Task.findAll({
       where: {
         projectId: ctx.params.projectId,
-      }
+      },
+      order: [
+        ['deadline', 'ASC']
+      ]
     });
     ctx.status = 200;
     ctx.body = { tasks };

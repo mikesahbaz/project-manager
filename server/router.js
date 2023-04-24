@@ -11,11 +11,14 @@ const router = new Router();
 router.post('/login', userController.loginUser);
 router.post('/logout', userController.logoutUser);
 router.post('/register', userController.registerUser);
+router.get('/users', userController.getAllUsers);
 
 //project routes
 router.post('/projects', projectController.postProject);
 router.get('/users/:firebaseUid/projects', projectController.getProjectsByUser);
 router.delete('/projects/:projectId', projectController.deleteProjectById);
+router.get('/projects/:projectId', projectController.getProjectById);
+
 
 //task routes
 router.post('/projects/:projectId/tasks', taskController.postTask);
