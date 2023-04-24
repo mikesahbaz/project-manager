@@ -15,6 +15,11 @@ export default function ProjectPage() {
   const [priority, setPriority] = useState('');
   const [deadline, setDeadline] = useState('');
   const [showCreateTask, setShowCreateTask] = useState(false);
+  const [bugName, setBugName] = useState('');
+  const [bugDescription, setBugDescription] = useState('');
+  const [bugPriority, setBugPriority] = useState('');
+  const [showCreateTicket, setShowCreateTicket] = useState(false);
+  const [currentTaskId, setCurrentTaskId] = useState(null);
 
   const resetForm = () => {
     setTaskName('');
@@ -22,6 +27,13 @@ export default function ProjectPage() {
     setPriority('');
     setDeadline('');
     setShowCreateTask(false);
+  }
+
+  const resetBugForm = () => {
+    setBugName('');
+    setBugDescription('');
+    setBugPriority('');
+    setShowCreateTicket(false);
   }
 
   const handleSubmitTask = async function (e) {
@@ -46,6 +58,32 @@ export default function ProjectPage() {
         resetForm();
       })
       .catch(error => console.error(error));
+  }
+
+
+
+  const handleSubmitTicket = async function (e) {
+    e.preventDefault();
+
+    const formData = {
+      name: bugName,
+      description: bugDescription,
+      priority: bugPriority,
+      taskId: currentTaskId,
+    }
+    fetch(`http://localhost:3001/bugs`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+      .then(response => response.json())
+      .then(newTicket => {
+        setBugs([...bugs, newTicket]);
+        resetBugForm();
+        
+      })
   }
 
   useEffect(() => {
@@ -132,6 +170,24 @@ export default function ProjectPage() {
     </div>
   )
 
+  const createTicketForm = (
+    <div className='create-ticket-form'>
+      <h2>Create a new ticket</h2>
+      <form onSubmit={handleSubmitTicket}>
+        <input type='text' value={bugName} onChange={event => setBugName(event.target.value)} placeholder='Ticket Name' ></input>
+        <input type='text' value={bugDescription} onChange={event => setBugDescription(event.target.value)} placeholder='Enter a description of the bug'></input>
+        <label>Task Priority: </label>
+        <select className='ticket-priority-selector' onChange={event => setPriority(event.target.value)}>
+          <option value={'Low'}>Low</option>
+          <option value={'Medium'}>Medium</option>
+          <option value={'High'}>High</option>
+        </select>
+        <button type='submit' className='submit-ticket-btn'>Create</button>
+      </form>
+
+    </div>
+  )
+
 
 
   return (
@@ -144,8 +200,12 @@ export default function ProjectPage() {
         <h3>{project?.deadline ? new Date(project.deadline).toLocaleDateString() : 'Project Deadline'}</h3>
         <h2>Project Team Members</h2>
       </div>
+      <div className='tasks-and-tickets-container'>
+
+      </div>
       <div className='tasks-container'>
         {showCreateTask && createTaskForm}
+        {showCreateTicket && createTicketForm}
         <div className='tasks-and-btn-container'>
         <h1>Tasks</h1>
         <button className='create-task-btn' onClick={() => setShowCreateTask(!showCreateTask)}>Create Task</button>
@@ -161,7 +221,7 @@ export default function ProjectPage() {
             <div className='task-buttons'>
               <button className='btn-complete'><AiFillCheckCircle/></button>
               <button className='btn-delete'><AiFillCloseCircle/></button>
-              <button className='btn-create-ticket'><BiBug/></button>
+              <button className='btn-create-ticket' onClick={() => {setShowCreateTicket(!showCreateTicket); setCurrentTaskId(task.id);}}><BiBug/></button>
             </div>
           </div>
         ))}
