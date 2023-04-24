@@ -164,6 +164,18 @@ h3 {
   transform: scale(1.2);
 }
 
+.close-create-task-form {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.close-create-task-form:hover {
+  transform: scale(1.2);
+}
+
 .task-buttons {
   margin-left: 5px;
 }

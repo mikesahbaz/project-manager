@@ -183,6 +183,7 @@ export default function ProjectPage() {
 
   const createTaskForm = (
     <div className='create-task-form'>
+      <button className='close-create-task-form' onClick={() => setShowCreateTask(!showCreateTask)}><AiFillCloseCircle></AiFillCloseCircle></button>
       <h2>Create a new Task</h2>
       <form onSubmit={handleSubmitTask}>
         <input type='text' value={taskName} onChange={event => setTaskName(event.target.value)} placeholder='Task Name' ></input>

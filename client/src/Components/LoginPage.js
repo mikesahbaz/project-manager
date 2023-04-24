@@ -16,8 +16,8 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/dashboard');
       if (auth.currentUser) {
+        navigate('/dashboard');
         console.log('Successfully logged in');
       }
     } catch (error) {
