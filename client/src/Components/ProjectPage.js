@@ -20,7 +20,6 @@ export default function ProjectPage() {
   const [bugPriority, setBugPriority] = useState('');
   const [showCreateTicket, setShowCreateTicket] = useState(false);
   const [currentTaskId, setCurrentTaskId] = useState(null);
-  const [teamMembers, setTeamMembers] = useState([]);
 
   const resetForm = () => {
     setTaskName('');
@@ -135,7 +134,6 @@ export default function ProjectPage() {
       const data = await res.json();
       if (res.ok) {
         setProject(data.project);
-        setTeamMembers(data.project.Users);
       } else {
         console.error(data.message);
       }
