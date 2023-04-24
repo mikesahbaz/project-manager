@@ -86,6 +86,35 @@ export default function ProjectPage() {
       })
   }
 
+  const handleTaskDelete = async function (taskId) {
+    fetch(`http://localhost:3001/tasks/${taskId}`, {
+      method: 'DELETE',
+    })
+    .then(response => {
+      if (response.ok) {
+        setTasks(tasks.filter(task => task.id !== taskId));
+      } else {
+        console.error('Error deleting task');
+      }
+    })
+    .catch(error => console.error('Error deleting task:', error));
+  }
+
+  const handleBugDelete = async function (bugId) {
+    fetch(`http://localhost:3001/bugs/${bugId}`, {
+      method: 'DELETE',
+    })
+    .then(response => {
+      if (response.ok) {
+        setBugs(bugs.filter(bug => bug.id !== bugId));
+      } else {
+        console.error('Error deleting bug');
+      }
+    })
+    .catch(error => console.error('Error deleting bug:', error));
+  }
+
+
   useEffect(() => {
     fetchProject();
     fetchTasks(projectId);
@@ -220,7 +249,7 @@ export default function ProjectPage() {
             </div>
             <div className='task-buttons'>
               <button className='btn-complete'><AiFillCheckCircle/></button>
-              <button className='btn-delete'><AiFillCloseCircle/></button>
+              <button className='btn-delete' onClick={() => handleTaskDelete(task.id)}><AiFillCloseCircle/></button>
               <button className='btn-create-ticket' onClick={() => {setShowCreateTicket(!showCreateTicket); setCurrentTaskId(task.id);}}><BiBug/></button>
             </div>
           </div>
@@ -234,7 +263,10 @@ export default function ProjectPage() {
               <h1>{ticket.name}</h1>
               <h2>{ticket.priority}</h2>
               <h3>{ticket.description}</h3>
-              <h3>{new Date(ticket.deadline).toLocaleDateString()}</h3>
+          <div className='ticket-buttons'>
+              <button className='ticket-btn-complete'><AiFillCheckCircle/></button>
+              <button className='ticket-btn-delete' onClick={() => handleBugDelete(ticket.id)}><AiFillCloseCircle/></button>
+          </div>
             </div>
           ))}
       </div>

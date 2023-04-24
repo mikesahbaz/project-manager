@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { auth } from '../../src/firebase_react';
 import NavBar from './NavBar';
 import { useNavigate } from 'react-router-dom';
-import ProjectPage from './ProjectPage';
-// import { FiBell, FiCalendar, FiSearch  } from 'react-icons/fi';
+import { AiFillCloseCircle } from 'react-icons/ai';
 import './Dashboard.css';
 
 export default function Dashboard() {
@@ -23,6 +22,20 @@ export default function Dashboard() {
     } catch (error) {
       console.error('Error fetching projects: ', error);
     }
+  }
+
+  const handleProjectDelete = async function (projectId) {
+    fetch(`http://localhost:3001/projects/${projectId}`, {
+      method: 'DELETE',
+    })
+    .then(response => {
+      if (response.ok) {
+        setProjects(projects.filter(project => project.id !== projectId));
+      } else {
+        console.error('Error deleting bug');
+      }
+    })
+    .catch(error => console.error('Error deleting bug: ', error));
   }
 
   useEffect( () => {
@@ -56,8 +69,13 @@ export default function Dashboard() {
             </div>
             {projects.map((project) => (
               <div key={project.id} className='project-item'>
+                <div className='project-item-details'>
                 <h2 onClick={ () => handleProjectClick(project.id)} style={{cursor: 'pointer'}}>{project.name}</h2>
                 <h3>{project.description}</h3>
+                </div>
+                <div className='project-item-buttons'>
+                  <button className='project-delete-btn' onClick={() => handleProjectDelete(project.id)}><AiFillCloseCircle/></button>
+                </div>
               </div>
             ))}
           </div>

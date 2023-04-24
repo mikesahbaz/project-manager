@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './CreateProjectPage.css';
 import NavBar from './NavBar';
+import { useNavigate } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
 
 export default function CreateProjectPage() {
@@ -11,6 +12,7 @@ export default function CreateProjectPage() {
   const [error, setError] = useState('');
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
   // const navigate = useNavigate();
 
   const resetForm = () => {
@@ -28,6 +30,10 @@ export default function CreateProjectPage() {
       (option) => parseInt(option.value)
     );
     setUserIds(selectedUserIds);
+  }
+
+  const handleProjectCreation = (projectId) => {
+    navigate(`/projects/${projectId}`)
   }
 
   useEffect(() => {
@@ -68,6 +74,7 @@ export default function CreateProjectPage() {
         throw new Error('There was an error creating the project', data.message);
       }
       resetForm();
+      navigate(`/projects/${data.project.id}`)
       // navigate('/projectPage'); Navigate to the projects page after creation
 
     } catch (error) {
