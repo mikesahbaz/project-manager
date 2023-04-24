@@ -39,7 +39,8 @@ const getProjectsByUser = async function (ctx) {
       include: {
         model: db.Project,
         through: db.UserProject,
-      }
+      },
+      order: [[db.Project, 'createdAt', 'DESC']]
     });
     
     if (user && user.projects.length > 0) {
@@ -63,6 +64,7 @@ const getProjectById = async function (ctx) {
   try {
     const project = await db.Project.findOne({
       where: { id: projectId },
+      include: { model: db.User}
     });
     if (project) {
       ctx.response.status = 200;

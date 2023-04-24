@@ -32,9 +32,6 @@ export default function CreateProjectPage() {
     setUserIds(selectedUserIds);
   }
 
-  const handleProjectCreation = (projectId) => {
-    navigate(`/projects/${projectId}`)
-  }
 
   useEffect(() => {
     fetchUsers();
@@ -74,7 +71,7 @@ export default function CreateProjectPage() {
         throw new Error('There was an error creating the project', data.message);
       }
       resetForm();
-      navigate(`/projects/${data.project.id}`)
+      navigate(`/dashboard`)
       // navigate('/projectPage'); Navigate to the projects page after creation
 
     } catch (error) {
@@ -82,25 +79,6 @@ export default function CreateProjectPage() {
       setError(error.message);
     }
 
-    const formData = {
-      name,
-      description,
-      deadline,
-      userIds
-    }
-
-    fetch('http://localhost:3001/projects', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    })
-      .then(response => response.json())
-      .then(data => {
-        //navigate to project's page
-      })
-      .catch(error => console.error(error));
   }
 
   return (

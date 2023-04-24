@@ -68,9 +68,9 @@ export default function Dashboard() {
               <button className='create-project-btn' onClick={handleCreateProjectClick}>Create a new project</button>
             </div>
             {projects.map((project) => (
-              <div key={project.id} className='project-item'>
+              <div key={project.id} className='project-item' onClick={ () => handleProjectClick(project.id)} style={{cursor: 'pointer'}}>
                 <div className='project-item-details'>
-                <h2 onClick={ () => handleProjectClick(project.id)} style={{cursor: 'pointer'}}>{project.name}</h2>
+                <h2  style={{cursor: 'pointer'}}>{project.name}</h2>
                 <h3>{project.description}</h3>
                 </div>
                 <div className='project-item-buttons'>
