@@ -1,4 +1,4 @@
-module.exports = function defineAssociations({ User, Project, UserProject, Task, Bug }) {
+module.exports = function defineAssociations({ User, Project, UserProject, Task, Bug, TimeLog }) {
   User.belongsToMany(Project, { through: UserProject });
   Project.belongsToMany(User, { through: UserProject });
 
@@ -7,5 +7,8 @@ module.exports = function defineAssociations({ User, Project, UserProject, Task,
   
   Task.hasMany(Bug, { foreignKey: 'taskId' });
   Bug.belongsTo(Task, { foreignKey: 'taskId' });
+
+  TimeLog.belongsTo(Task, { foreignKey: 'taskId' });
+  Task.hasMany(TimeLog, { foreignKey: 'taskId' });
 
 }

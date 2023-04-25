@@ -4,6 +4,7 @@ const bugController = require('./controllers/bugController');
 const projectController = require('./controllers/projectController');
 const taskController = require('./controllers/taskController');
 const userController = require('./controllers/userController');
+const timelogController = require('./controllers/timelogController');
 
 const router = new Router();
 
@@ -24,11 +25,16 @@ router.get('/projects/:projectId', projectController.getProjectById);
 router.post('/projects/:projectId/tasks', taskController.postTask);
 router.get('/projects/:projectId/tasks', taskController.getTasksByProject);
 router.delete('/tasks/:taskId', taskController.deleteTask);
+router.put('/tasks/:taskId/complete', taskController.completeTask);
 
 //bug routes
 router.post('/bugs', bugController.postBug);
 router.get('/tasks/:taskId/bugs', bugController.getBugByTask);
 router.delete('/bugs/:bugId', bugController.deleteBug);
+
+//timelog routes
+router.post('/timelog/:taskId', timelogController.postTimeLog)
+router.get('/timelog/:taskId', timelogController.getTimelogsForTask);
 
 
 

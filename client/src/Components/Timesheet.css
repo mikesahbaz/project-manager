@@ -1,0 +1,85 @@
+.task-item {
+  background-color: #f7f7f7;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+
+.task-item-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.task-item-description {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.task-item-priority {
+  font-size: 14px;
+  font-weight: bold;
+  color: #f44336;
+}
+
+.time-entry-btn {
+  background-color: #b39ddb;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 12px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition-duration: 0.4s;
+}
+
+.time-entry-btn:hover {
+  background-color: #9575cd;
+}
+
+
+.time-entry-form-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.time-entry-form-container h2 {
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.time-entry-form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.time-entry-form-container button[type='submit'] {
+  background-color: #7c4dff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.time-entry-form-container button[type='submit']:hover {
+  background-color: #5e35b1;
+}

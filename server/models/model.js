@@ -77,6 +77,11 @@ module.exports = (sequelize, DataTypes) => {
         model: 'projects',
         key: 'id',
       }
+    },
+    completed: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     }
   })
   
@@ -108,6 +113,27 @@ module.exports = (sequelize, DataTypes) => {
     }
   })
 
+  const TimeLog = sequelize.define('TimeLog', {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    minutesSpent: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    taskId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'tasks',
+        key: 'id',
+      }
+    }
+  })
+
+
   const UserProject = sequelize.define('userProject', {
     userId: {
       type: DataTypes.INTEGER,
@@ -127,7 +153,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
   
-  return { User, Project, Task, Bug, UserProject };
+  return { User, Project, Task, Bug, UserProject, TimeLog };
 }
 
 

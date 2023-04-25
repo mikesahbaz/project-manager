@@ -27,6 +27,9 @@ db.Task.belongsTo(db.Project, { foreignKey: 'projectId' });
 db.Task.hasMany(db.Bug, { foreignKey: 'taskId' });
 db.Bug.belongsTo(db.Task, { foreignKey: 'taskId' });
 
+db.Task.hasMany(db.TimeLog, { foreignKey: 'taskId' });
+db.TimeLog.belongsTo(db.Task, { foreignKey: 'taskId' });
+
 try {
   sequelize.authenticate();
   console.log('Connection has been established successfully.');

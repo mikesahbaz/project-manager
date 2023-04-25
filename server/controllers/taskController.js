@@ -60,5 +60,24 @@ const deleteTask = async function (ctx) {
   }
 }
 
+const completeTask = async function (ctx) {
+  try {
+    const taskId = ctx.params.taskId;
+    const task = await db.Task.findByPk(taskId);
+    if (!task) {
+      ctx.status = 404;
+      ctx.body = { message: 'This task does not exist'};
+      return;
+    }
+    const updatedTask = await task.update({ complete: true });
+    ctx.status = 200;
+    ctx.body = { message: 'Task was marked complete', task: updatedTask };
+  } catch (error) {
+    console.error(error);
+    ctx.body = error;
+    ctx.status = 500;
+  }
+}
 
-module.exports = {postTask, getTasksByProject, deleteTask};
+
+module.exports = {postTask, getTasksByProject, deleteTask, completeTask};

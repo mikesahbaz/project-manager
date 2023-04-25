@@ -181,6 +181,25 @@ export default function ProjectPage() {
     }
   }
 
+  // const handleTaskComplete = async function (taskId) {
+  //   try {
+  //     const response = await fetch(`http://localhost:3001/tasks/${taskId}/complete`, {
+  //       method: 'PUT',
+  //     });
+  //     if (response.ok) {
+  //       const updatedTask = await response.json();
+  //       console.log(updatedTask);
+  //       console.log(tasks);
+  //       setTasks(tasks.map( (task) => (task.id === taskId ? updatedTask : task )));
+  //       console.log(tasks);
+  //     } else {
+  //       console.error('error completing the task');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error completing the task', error);
+  //   } // THIS IS THE ONCLICK EVENT onClick={() => handleTaskComplete(task.id)} //
+  // }
+
   const createTaskForm = (
     <div className='create-task-form'>
       <button className='close-create-task-form' onClick={() => setShowCreateTask(!showCreateTask)}><AiFillCloseCircle></AiFillCloseCircle></button>
@@ -243,12 +262,12 @@ export default function ProjectPage() {
         <button className='create-task-btn' onClick={() => setShowCreateTask(!showCreateTask)}>Create Task</button>
         </div>
         {tasks.map( (task) => (
-          <div key={task.id} className='task-item'>
+          <div key={task.id} className={`task-item ${task.completed ? ' completed-task' : ''}`}>
             <div className='task-details'>
             <h1>{task.name}</h1>
             <h2>{task.priority}</h2>
             <h3>{task.description}</h3>
-            <h3>{new Date(task.deadline).toLocaleDateString()}</h3>
+            <h3>{task.deadline ? new Date(task.deadline).toLocaleDateString() : ''}</h3>
             </div>
             <div className='task-buttons'>
               <button className='btn-complete'><AiFillCheckCircle/></button>

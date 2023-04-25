@@ -10,6 +10,10 @@ export default function NavBar() {
     navigate('/dashboard');
   }
 
+  const handleTimesheetClick = function () {
+    navigate('/timesheet');
+  }
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -27,7 +31,7 @@ export default function NavBar() {
           <a href='#' className='nav-link'>Tasks</a>
           <a href='#' className='nav-link'>Tickets</a>
           <a href='#' className='nav-link'>Milestones</a>
-          <a href='#' className='nav-link'>Timesheet</a>
+          <a href='#' className='nav-link' onClick={handleTimesheetClick}>Timesheet</a>
           </div>
           <div className='right-nav-container'>
           <button className='logout-btn' onClick={handleLogout}>Logout</button>

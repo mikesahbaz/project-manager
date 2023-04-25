@@ -72,7 +72,7 @@ export default function CreateProjectPage() {
       }
       resetForm();
       navigate(`/dashboard`)
-      // navigate('/projectPage'); Navigate to the projects page after creation
+      
 
     } catch (error) {
       console.error(error);
