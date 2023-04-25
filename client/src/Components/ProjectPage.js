@@ -20,6 +20,8 @@ export default function ProjectPage() {
   const [bugPriority, setBugPriority] = useState('');
   const [showCreateTicket, setShowCreateTicket] = useState(false);
   const [currentTaskId, setCurrentTaskId] = useState(null);
+  const [completedTasks, setCompletedTasks] = useState([]);
+  
 
   const resetForm = () => {
     setTaskName('');
