@@ -69,7 +69,7 @@ const completeTask = async function (ctx) {
       ctx.body = { message: 'This task does not exist'};
       return;
     }
-    const updatedTask = await task.update({ complete: true });
+    const updatedTask = await task.update({ completed: true });
     ctx.status = 200;
     ctx.body = { message: 'Task was marked complete', task: updatedTask };
   } catch (error) {
