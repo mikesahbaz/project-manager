@@ -1,4 +1,5 @@
 const db = require('../models/index');
+const { sendEmailNotification } = require('../emailNotifications');
 
 const postProject = async function (ctx) {
   try {
@@ -18,6 +19,10 @@ const postProject = async function (ctx) {
       where: { id: project.id },
       include: db.User,
     });
+
+    for (const user of users) {
+      await sendEmailNotification(user.email, ctx.request.body.name);
+    }
 
     ctx.response.status = 201;
     ctx.response.body = project;
