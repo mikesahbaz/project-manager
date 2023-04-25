@@ -9,13 +9,13 @@ export default function Timesheet() {
   const [projects, setProjects] = useState([]);
   const [allTasks, setAllTasks] = useState([]);
   const [showTimeEntryForm, setShowTimeEntryForm] = useState(false);
-  const [timeSpent, setTimeSpent] = useState(null);
-  const [currentTaskId, setCurrentTaskId] = useState(null);
+  const [timeSpent, setTimeSpent] = useState('');
+  const [currentTaskId, setCurrentTaskId] = useState('');
   const [timeLogs, setTimeLogs] = useState([]);
 
   const resetTimeEntryForm = () => {
-    setTimeSpent(null);
-    setCurrentTaskId(null);
+    setTimeSpent('');
+    setCurrentTaskId('');
     setShowTimeEntryForm(false);
   }
 
@@ -92,6 +92,8 @@ export default function Timesheet() {
   const handleSubmitTimeEntry = async function (e) {
     e.preventDefault();
 
+    const arrayForFetching = [];
+
     const formData = {
       minutesSpent: timeSpent,
       taskId: currentTaskId
@@ -106,6 +108,8 @@ export default function Timesheet() {
       .then(response => response.json())
       .then(data => {
         resetTimeEntryForm();
+        arrayForFetching.push(currentTaskId);
+        fetchTimeLogsForEachTask(arrayForFetching);
       })
       .catch(error => console.error(error));
   }
@@ -129,7 +133,7 @@ export default function Timesheet() {
       <h2>Time Entry</h2>
       <form onSubmit={handleSubmitTimeEntry}>
         <label>Time Spent in Minutes</label>
-        <input type='number' id='timeSpent' min='0' value={timeSpent} onChange={event => setTimeSpent(event.target.value)} placeholder='Time Spent in Minutes'></input>
+        <input type='number' id='timeSpent' value={timeSpent} onChange={event => setTimeSpent(event.target.value)} placeholder='Time Spent in Minutes'></input>
         <button type='submit'>Submit Time Entry</button>
       </form>
     </div>
@@ -144,7 +148,7 @@ export default function Timesheet() {
         <div key={task.id} className="task-item">
         <div className="task-item-name">{task.name}</div>
         <div className="task-item-description">{task.description}</div>
-        <div className='task-item-total-time'>{calculateTotalTimeForTask(task.id)} hours total spent</div>
+        <div className='task-item-total-time'>{calculateTotalTimeForTask(task.id)} hours spent</div>
         <button className='time-entry-btn' onClick={() => {
           setShowTimeEntryForm(!showTimeEntryForm);
           setCurrentTaskId(task.id);

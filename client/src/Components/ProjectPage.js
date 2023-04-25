@@ -190,7 +190,7 @@ export default function ProjectPage() {
         const updatedTask = await response.json();
         console.log(updatedTask);
         console.log(tasks);
-        setTasks(tasks.map( (task) => (task.id === taskId ? updatedTask : task )));
+        fetchTasks();
         console.log(tasks);
       } else {
         console.error('error completing the task');
