@@ -248,8 +248,7 @@ export default function ProjectPage() {
       <div className='project-details'>
         <h1>{project?.name || 'Project Name'}</h1>
         <h2>{project?.description || 'Project Description'}</h2>
-        <h3>{project?.deadline ? new Date(project.deadline).toLocaleDateString() : 'Project Deadline'}</h3>
-        <h2>Project Team Members</h2>
+        <h3>Deadline: {project?.deadline ? new Date(project.deadline).toLocaleDateString() : 'Project Deadline'}</h3>
       </div>
       <div className='tasks-and-tickets-container'>
 

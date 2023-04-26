@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './CreateProjectPage.css';
 import NavBar from './NavBar';
 import { useNavigate } from 'react-router-dom';
+import Select from 'react-select';
 // import { useNavigate } from 'react-router-dom';
 
 export default function CreateProjectPage() {
@@ -13,7 +14,6 @@ export default function CreateProjectPage() {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
-  // const navigate = useNavigate();
 
   const resetForm = () => {
     setName('');
@@ -89,11 +89,18 @@ export default function CreateProjectPage() {
         <form onSubmit={handleSubmit}>
           <input type='text' value={name} onChange={event => setName(event.target.value)} placeholder='Project Name' ></input>
           <input type='text' value={description} onChange={event => setDescription(event.target.value)} placeholder='Project Description' ></input>
+          <label>Deadline:</label>
           <input type='date' value={deadline} onChange={event => setDeadline(event.target.value)} placeholder='Project Due Date' ></input>
           <input type='text' placeholder='Search team members' value={searchQuery} onChange={event => setSearchQuery(event.target.value)}></input>
-          <select multiple value={userIds} onChange={handleUserSelected}>{users.filter((user) => `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchQuery.toLowerCase())).map((user) => (
-            <option key={user.id} value={user.id}>{user.firstName} {user.lastName}</option>
-          ))}</select>
+          <Select
+              isMulti
+              options={users.map(user => ({ value: user.id, label: `${user.firstName} ${user.lastName}` }))}
+              value={userIds.map(id => {
+                  const selectedUser = users.find(user => user.id === id);
+                  return { value: id, label: `${selectedUser.firstName} ${selectedUser.lastName}` };
+              })}
+              onChange={selectedUsers => setUserIds(selectedUsers.map(user => user.value))}
+          />
           <button type='submit' className='submit-project-btn'>Create the Project</button>
         </form>
       </div>

@@ -75,6 +75,7 @@ select:focus {
   cursor: pointer;
   outline: none;
   transition: background-color 0.3s;
+  margin-top: 5px;
 }
 
 .submit-project-btn:hover {
