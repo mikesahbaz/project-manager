@@ -34,7 +34,7 @@ export default function Timesheet() {
       });
   
       const timeLogsResults = await Promise.all(timeLogsPromises);
-      const timeLogsObject = timeLogsResults.reduce((acc, { taskId, logs }) => {
+      const timeLogsObject = timeLogsResults.reduce((acc, { taskId, logs }) => { 
         acc[taskId] = logs;
         return acc;
       }, {});
@@ -80,8 +80,8 @@ export default function Timesheet() {
         }
       });
 
-      const tasksResults = await Promise.all(tasksPromises);
-      const allTasks = tasksResults.flat();
+      const tasksResults = await Promise.all(tasksPromises); // resolves all of the promises in tasksPromises at the same time
+      const allTasks = tasksResults.flat(); // tasksResults contains nested arrays, .flat() flattens them into one array.
       setAllTasks(allTasks);
       
     } catch (error) {

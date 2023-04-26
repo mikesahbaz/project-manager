@@ -2,12 +2,13 @@ const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 
+
 const config = {
   host: 'localhost',
   dialect: 'postgres'
 };
 
-const sequelize = new Sequelize('project_management_tool', 'postgres', '1234', config);
+const sequelize = new Sequelize(process.env.DATABASE_PROJECT_NAME, process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, config);
 const db = {};
 
 const models = require('./model')(sequelize, Sequelize.DataTypes);
